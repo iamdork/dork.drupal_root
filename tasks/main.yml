@@ -1,0 +1,2 @@
+- name: alert
+  debug: msg="Drupal root!"

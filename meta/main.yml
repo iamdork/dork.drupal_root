@@ -1,0 +1,7 @@
+dependencies:
+- dork.drupal
+
+dork:
+  matches:
+  - "index.php"
+  - "install.php"
