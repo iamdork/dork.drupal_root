@@ -1,2 +1,34 @@
-- name: alert
-  debug: msg="Drupal root!"
+
+- name: add standard exclude paths
+  lineinfile:
+    create: yes
+    dest: /tmp/rsync-excludes
+    line: "{{ item }}"
+    state: present
+  with_items:
+  - .git
+  - sites/default/files
+  - sites/default/settings.php
+
+- name: add configured exclude paths
+  lineinfile:
+    create: yes
+    dest: /tmp/rsync-excludes
+    line: "{{ item }}"
+    state: present
+  with_items: hot_directories
+
+- name: sync static code
+  sudo: yes
+  sudo_user: "{{ dork_user }}"
+  shell: >
+    rsync -ru --delete
+    --exclude-from=/tmp/rsync-excludes
+    /var/source{{ docroot }}/ /var/web/
+
+- name: link hot code directories
+  file:
+    src: /var/source{{ docroot }}/{{ item }}
+    dest: /var/web/{{ item }}
+    state: link
+  with_items: hot_directories
