@@ -14,7 +14,7 @@
   lineinfile:
     create: yes
     dest: /tmp/rsync-excludes
-    line: "-{{ item }}"
+    line: "{{ item }}"
     state: present
   with_items: hot_directories
 
