@@ -5,3 +5,5 @@ dork:
   matches:
   - "index.php"
   - "install.php"
+  tags:
+  - "**": [codesync]

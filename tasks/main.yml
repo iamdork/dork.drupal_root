@@ -9,6 +9,7 @@
   - .git
   - sites/default/files
   - sites/default/settings.php
+  tags: codesync
 
 - name: add configured exclude paths
   lineinfile:
@@ -17,6 +18,7 @@
     line: "{{ item }}"
     state: present
   with_items: hot_directories
+  tags: codesync
 
 - name: sync static code
   sudo: yes
@@ -25,6 +27,7 @@
     rsync -ru --delete
     --exclude-from=/tmp/rsync-excludes
     /var/source{{ docroot }}/ /var/web/
+  tags: codesync
 
 - name: link hot code directories
   file:
@@ -32,3 +35,4 @@
     dest: /var/web/{{ item }}
     state: link
   with_items: hot_directories
+  tags: codesync
